@@ -20,9 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Chief\Controllers\" />
-    <Folder Include="Areas\Chief\Views\" />
-    <Folder Include="Areas\Employee\Controllers\" />
-    <Folder Include="Areas\Employee\Views\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

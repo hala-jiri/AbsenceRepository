@@ -9,6 +9,7 @@ using AbsenceWebApp.Models;
 
 namespace AbsenceWebApp.Controllers
 {
+    [Area("Employee")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
