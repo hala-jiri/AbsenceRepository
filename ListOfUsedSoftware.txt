@@ -1,0 +1,4 @@
+- SourceTree
+- GitHub
+- Visual Studio Community 2019 (v.16.4.2)
+- SQL Server Management Studio v18.4
