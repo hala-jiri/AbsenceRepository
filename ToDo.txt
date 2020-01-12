@@ -1,0 +1,21 @@
+DB:
+- DB tables and schema
+- Insert some test data to DB
+- Save scripts for DB
+- DB schema pic
+
+
+IS:
+- Create Areas routing
+- Menu
+- Users - Basic page
+- Users - Insert / Edit / Delete
+- Users - Partial Page
+- Users - Unittest
+- Absence - Basic page
+- Absence - Insert / Edit / Delete
+- Absence - Partial Page
+- Administration - Basic page to see absences
+- Administration - Accepted page
+- Administration - Statistic page - basics
+- Show overlay validation message during creating of absence
