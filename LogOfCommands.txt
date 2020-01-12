@@ -1,0 +1,2 @@
+After change of connection string was applied:
+"update-database"
