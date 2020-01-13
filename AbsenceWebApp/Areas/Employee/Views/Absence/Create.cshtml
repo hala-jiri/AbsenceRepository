@@ -1,0 +1,58 @@
+﻿@model Absence
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 class="text-info">Create absence</h2>
+<br />
+
+<form method="post" asp-action="Create">
+    <div class="border backgroundWhite">
+        <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserName" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="UserName" class="form-control" />
+            </div>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+            <br />
+
+
+            <div class="col-2">
+                <label asp-for="DatetimeFrom" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="DatetimeFrom" class="form-control" />
+            </div>
+            <span asp-validation-for="DatetimeFrom" class="text-danger"></span>
+            <br />
+
+
+            <div class="col-2">
+                <label asp-for="DatetimeTo" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="DatetimeTo" class="form-control" />
+            </div>
+            <span asp-validation-for="DatetimeTo" class="text-danger"></span>
+            <br />
+
+            <div class="col-2">
+                <label asp-for="Reason" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Reason" class="form-control" />
+            </div>
+            <span asp-validation-for="Reason" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_CreateAndBackToListButton" />
+            </div>
+        </div>
+    </div> 
+</form>
