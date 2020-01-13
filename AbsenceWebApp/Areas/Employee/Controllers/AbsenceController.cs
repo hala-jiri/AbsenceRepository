@@ -48,5 +48,42 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
             return View(absence);
 
         }
+
+        //GET - Edit
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var absence = await _db.Absence.FindAsync(id);
+            if (absence == null)
+            {
+                return NotFound();
+            }
+            return View(absence);
+        }
+
+        //POST - Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Absence absence)
+        {
+            if (ModelState.IsValid)
+            {
+                //TODO: Change model to saving last date of update
+                // absence.DatetimeOfCreated = DateTime.Now; can be used for Date of Change
+                
+                //TODO: If there will be any changes, absence should be approved or make it not approved.
+
+                //TODO: change this Update for separate attributes updates.
+                _db.Update(absence);
+                await _db.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            return View(absence);
+
+        }
     }
 }
