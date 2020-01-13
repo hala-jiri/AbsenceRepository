@@ -1,5 +1,7 @@
 AbsenceWebApp/obj/
+AbsenceWebApp/Obj/
 AbsenceWebApp/bin/
+AbsenceWebApp/Bin/
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
@@ -8,18 +10,18 @@ AbsenceWebApp/bin/
 !*.[Cc]ache/
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
+AbsenceWebApp/[Dd]ebug/
+AbsenceWebApp/[Dd]ebugPublic/
+AbsenceWebApp/[Rr]elease/
+AbsenceWebApp/[Rr]eleases/
+AbsenceWebApp/x64/
+AbsenceWebApp/x86/
+AbsenceWebApp/[Aa][Rr][Mm]/
+AbsenceWebApp/[Aa][Rr][Mm]64/
+AbsenceWebApp/bld/
+AbsenceWebApp/[Bb]in/
+AbsenceWebApp/[Oo]bj/
+AbsenceWebApp/[Ll]og/
 
 
 # ReSharper is a .NET coding add-in
@@ -28,9 +30,9 @@ _ReSharper*/
 *.DotSettings.user
 
 # .NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/
+AbsenceWebApp/project.lock.json
+AbsenceWebApp/project.fragment.lock.json
+AbsenceWebApp/artifacts/
 
 
 
