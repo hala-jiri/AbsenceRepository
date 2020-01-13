@@ -52,10 +52,18 @@
                             @Html.DisplayFor(m => item.DatetimeTo)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => item.Approved)
+                            @if (item.Approved)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-question-circle"></i>
+                            }
+                           
                         </td>
                         <td>
-                            EDIT / DELETE / DETAILS
+                            <partial name="_TableButtonPartial" model="item.Id"/>
                         </td>
                     </tr>
                 }
