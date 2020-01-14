@@ -55,11 +55,15 @@
                     <label asp-for="Approved" class="col-form-label"></label>
                 </div>
                 <div class="col-5">
-                    @if (Model.Approved)
+                    @if (Model.Approved == true)
                     {
                         <i class="fas fa-check-circle"></i>
                     }
-                    else
+                    @if (Model.Approved == false)
+                    {
+                        <p>X</p>
+                    }
+                    @if (Model.Approved == null)
                     {
                         <i class="fas fa-question-circle"></i>
                     }

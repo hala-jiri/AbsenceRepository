@@ -52,15 +52,19 @@
                             @Html.DisplayFor(m => item.DatetimeTo)
                         </td>
                         <td>
-                            @if (item.Approved)
+                            @if (item.Approved == true)
                             {
                                 <i class="fas fa-check-circle"></i>
                             }
-                            else
+                            @if (item.Approved == false)
+                            {
+                                <p>X</p>
+                            }
+                            @if (item.Approved == null)
                             {
                                 <i class="fas fa-question-circle"></i>
                             }
-                           
+
                         </td>
                         <td>
                             <partial name="_TableButtonPartial" model="item.Id"/>

@@ -30,10 +30,10 @@ namespace AbsenceWebApp.Models
         public DateTime DatetimeOfCreated { get; set; }
 
         [Display(Name = "Approved")]
-        public bool Approved { get; set; }
+        public bool? Approved { get; set; }
 
         [Display(Name = "Approved date")]
-        public DateTime ApprovedDate { get; set; }
+        public DateTime? ApprovedDate { get; set; }
 
         [Display(Name = "Approved by")]
         public string ApprovedByUserName { get; set; }

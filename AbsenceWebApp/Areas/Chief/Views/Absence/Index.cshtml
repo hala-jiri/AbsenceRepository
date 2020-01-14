@@ -48,7 +48,7 @@
                             @Html.DisplayFor(m => item.DatetimeTo)
                         </td>
                         <td>
-                            @if (item.Approved)
+                            @if (item.Approved!=null && item.Approved==true)
                             {
                                 <i class="fas fa-check-circle"></i>
                             }
