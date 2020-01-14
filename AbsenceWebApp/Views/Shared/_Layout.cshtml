@@ -25,9 +25,11 @@
                                 Management
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-                                <a class="dropdown-item">Users</a>
-                                <a class="dropdown-item">All absences</a>
-                                <a class="dropdown-item">Statistics</a>
+                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Index">All absences</a>
+                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="ToApprove">To approve</a>
+                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Past">Past absences</a>
+                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Future">Future absences</a>
+                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Statistics">Statistics</a>
                             </div>
                         </li>
 

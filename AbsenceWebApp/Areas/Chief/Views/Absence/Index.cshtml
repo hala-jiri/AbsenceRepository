@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Absence>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">All absences List</h2>
+        </div>
+    </div>
+    <br />
+    <div>
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        @Html.DisplayNameFor(m => m.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.DatetimeFrom)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.DatetimeTo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Approved)
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.DatetimeFrom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.DatetimeTo)
+                        </td>
+                        <td>
+                            @if (item.Approved)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-question-circle"></i>
+                            }
+
+                        </td>
+                        <td>
+                            <partial name="_TableApproveDisapproveDetailButtonPartial" model="item.Id" />
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p>No absences exists...</p>
+        }
+    </div>
+</div>

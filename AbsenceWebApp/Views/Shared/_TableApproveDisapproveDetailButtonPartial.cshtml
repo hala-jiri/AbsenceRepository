@@ -1,0 +1,15 @@
+﻿@model int
+
+<td style="width:150px">
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary text-white" asp-action="Approve" asp-route-Id="@Model">
+            <i class="fas fa-clipboard-check"></i>
+        </a>
+        <a class="btn btn-danger text-white" asp-action="Disapprove" asp-route-Id="@Model">
+            <i class="far fa-clipboard"></i>
+        </a>
+        <a class="btn btn-success text-white" asp-action="Detail" asp-route-Id="@Model">
+            <i class="fas fa-clipboard-list"></i>
+        </a>
+    </div>
+</td>
