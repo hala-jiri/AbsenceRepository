@@ -85,5 +85,54 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
             return View(absence);
 
         }
+
+
+        //GET - Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var absence = await _db.Absence.FindAsync(id);
+            if (absence == null)
+            {
+                return NotFound();
+            }
+            return View(absence);
+        }
+
+
+        //POST - Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var absence = await _db.Absence.FindAsync(id);
+
+            //TODO: refactor the rest one lines conditions
+            if (absence == null)
+                return NotFound();
+
+            _db.Absence.Remove(absence);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        //GET - Detail
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var absence = await _db.Absence.FindAsync(id);
+            if (absence == null)
+            {
+                return NotFound();
+            }
+            return View(absence);
+        }
     }
 }

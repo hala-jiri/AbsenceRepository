@@ -1,0 +1,97 @@
+﻿@model AbsenceWebApp.Models.Absence
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+<h2 class="text-info">Edit absence</h2>
+<br />
+
+
+<form method="post" asp-action="Delete">
+    <div class="border backgroundWhite">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="UserName" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="UserName" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="DatetimeFrom" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="DatetimeFrom" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="DatetimeTo" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="DatetimeTo" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="Reason" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Reason" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="Approved" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    @if (Model.Approved)
+                    {
+                        <i class="fas fa-check-circle"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-question-circle"></i>
+                    }
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="ApprovedByUserName" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ApprovedByUserName" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="ApprovedDate" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ApprovedDate" readonly class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_DetailAndBackToListButton" model="Model.Id" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
