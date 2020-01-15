@@ -109,7 +109,7 @@ namespace AbsenceWebApp.Areas.Identity.Pages.Account
                     }
 
                     //Default Role during creating user
-                    await _userManager.AddToRoleAsync(user, StaticDetails.AdminUser);
+                    await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
 
                     //_logger.LogInformation("User created a new account with password.");
 
