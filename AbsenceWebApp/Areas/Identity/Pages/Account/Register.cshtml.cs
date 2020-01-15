@@ -82,6 +82,9 @@ namespace AbsenceWebApp.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            string selectedRole = Request.Form["rdUserRole"].ToString();
+
+
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -107,6 +110,31 @@ namespace AbsenceWebApp.Areas.Identity.Pages.Account
                     if (!await _roleManager.RoleExistsAsync(StaticDetails.AdminUser))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(StaticDetails.AdminUser));
+                    }
+
+                    // register contains posibility of choosing roles during registration
+                    switch (selectedRole)
+                    {
+                        case StaticDetails.EmployeeUser:
+                        {
+                            await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
+                            break;
+                        }
+                        case StaticDetails.ManagerUser:
+                        {
+                            await _userManager.AddToRoleAsync(user, StaticDetails.ManagerUser);
+                            break;
+                        }
+                        case StaticDetails.AdminUser:
+                        {
+                            await _userManager.AddToRoleAsync(user, StaticDetails.AdminUser);
+                            break;
+                        }
+                        default:
+                        { 
+                            await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
+                            break;
+                        }
                     }
 
                     //Default Role during creating user
