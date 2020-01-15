@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using AbsenceWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using AbsenceWebApp.Models;
+using AbsenceWebApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AbsenceWebApp.Areas.Employee.Controllers
 {
     [Area("Employee")]
+    [Authorize(Roles = StaticDetails.EmployeeUser + "," + StaticDetails.ManagerUser + "," + StaticDetails.AdminUser)]
     public class AbsenceController : Controller
     {
         private readonly ApplicationDbContext _db;

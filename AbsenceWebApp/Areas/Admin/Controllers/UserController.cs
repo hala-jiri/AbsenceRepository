@@ -4,12 +4,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AbsenceWebApp.Data;
+using AbsenceWebApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AbsenceWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.AdminUser)]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _db;

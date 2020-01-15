@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using AbsenceWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using AbsenceWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using AbsenceWebApp.Utility;
 
 namespace AbsenceWebApp.Areas.Chief.Controllers
 {
     // controller for all absences of all users!
     [Area("Chief")]
+    [Authorize(Roles = StaticDetails.ManagerUser + "," + StaticDetails.AdminUser)]
     public class AbsenceController : Controller
     {
         private readonly ApplicationDbContext _db;
