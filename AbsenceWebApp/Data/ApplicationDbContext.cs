@@ -15,5 +15,6 @@ namespace AbsenceWebApp.Data
         }
 
         public DbSet<Absence> Absence { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }
