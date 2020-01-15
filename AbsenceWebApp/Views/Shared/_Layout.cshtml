@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using AbsenceWebApp.Utility
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,35 +23,46 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown text-white-50">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Management
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Index">All absences</a>
-                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="ToApprove">To approve</a>
-                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Past">Past absences</a>
-                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Future">Future absences</a>
-                                <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Statistics">Statistics</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown text-white-50">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Admin section
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Employee" asp-controller="Absence" asp-action="Index">Absence</a>
-                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
+                        @if (User.IsInRole(StaticDetails.AdminUser) || User.IsInRole(StaticDetails.ManagerUser) || User.IsInRole(StaticDetails.EmployeeUser))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Employee" asp-controller="Absence" asp-action="Index">Absence</a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(StaticDetails.AdminUser) || User.IsInRole(StaticDetails.ManagerUser))
+                        {
+
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                    <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Index">All absences</a>
+                                    <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="ToApprove">To approve</a>
+                                    <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Past">Past absences</a>
+                                    <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Future">Future absences</a>
+                                    <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Statistics">Statistics</a>
+                                </div>
+                            </li>
+                        }
+                        @if (User.IsInRole(StaticDetails.AdminUser))
+                        {
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin section
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a>
+                                </div>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
