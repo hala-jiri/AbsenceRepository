@@ -115,11 +115,6 @@ namespace AbsenceWebApp.Areas.Identity.Pages.Account
                     // register contains posibility of choosing roles during registration
                     switch (selectedRole)
                     {
-                        case StaticDetails.EmployeeUser:
-                        {
-                            await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
-                            break;
-                        }
                         case StaticDetails.ManagerUser:
                         {
                             await _userManager.AddToRoleAsync(user, StaticDetails.ManagerUser);
@@ -131,14 +126,19 @@ namespace AbsenceWebApp.Areas.Identity.Pages.Account
                             break;
                         }
                         default:
-                        { 
-                            await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
-                            break;
-                        }
+                        {
+                                //TODO: fix issue when sign in the user after registration wihtout kick out the admin which create that user
+                                await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                return LocalRedirect(returnUrl);
+                                
+                            }
                     }
+                    // when admin register user...
+                    return RedirectToAction("Index", "User", new { area = "Admin" });
 
                     //Default Role during creating user
-                    await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
+                    //await _userManager.AddToRoleAsync(user, StaticDetails.EmployeeUser);
 
                     //_logger.LogInformation("User created a new account with password.");
 
@@ -161,8 +161,8 @@ namespace AbsenceWebApp.Areas.Identity.Pages.Account
                     //}
                     //else
                     //{
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+
+                       
                     //}
                 }
                 foreach (var error in result.Errors)

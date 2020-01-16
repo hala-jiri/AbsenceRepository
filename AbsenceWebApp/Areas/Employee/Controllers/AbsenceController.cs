@@ -24,7 +24,7 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
         //GET action method
         public async Task<IActionResult> Index()
         {
-            return View(await _db.Absence.ToListAsync());
+            return View(await _db.Absence.Where(u => u.UserName == User.Identity.Name).ToListAsync());
         }
 
 
@@ -39,6 +39,7 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Absence absence)
         {
+            absence.UserName = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 absence.DatetimeOfCreated = DateTime.Now;
