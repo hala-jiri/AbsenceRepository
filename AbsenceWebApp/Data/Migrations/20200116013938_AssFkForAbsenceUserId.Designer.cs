@@ -4,14 +4,16 @@ using AbsenceWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AbsenceWebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200116013938_AssFkForAbsenceUserId")]
+    partial class AssFkForAbsenceUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,11 +28,14 @@ namespace AbsenceWebApp.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool?>("Approved")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ApprovedByUserID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("ApprovedByUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ApprovedDate")
                         .HasColumnType("datetime2");
@@ -48,13 +53,12 @@ namespace AbsenceWebApp.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApprovedByUserID");
-
-                    b.HasIndex("UserID");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Absence");
                 });
@@ -273,13 +277,9 @@ namespace AbsenceWebApp.Data.Migrations
 
             modelBuilder.Entity("AbsenceWebApp.Models.Absence", b =>
                 {
-                    b.HasOne("AbsenceWebApp.Models.ApplicationUser", "ApplicationUserApprovedBy")
-                        .WithMany()
-                        .HasForeignKey("ApprovedByUserID");
-
                     b.HasOne("AbsenceWebApp.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

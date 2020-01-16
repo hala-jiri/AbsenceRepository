@@ -23,9 +23,6 @@
             <table class="table table-striped border">
                 <tr class="table-secondary">
                     <th>
-                        @Html.DisplayNameFor(m => m.UserName)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(m => m.DatetimeFrom)
                     </th>
                     <th>
@@ -42,9 +39,6 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(m => item.UserName)
-                        </td>
                         <td>
                             @Html.DisplayFor(m => item.DatetimeFrom)
                         </td>

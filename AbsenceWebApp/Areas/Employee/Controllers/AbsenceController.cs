@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AbsenceWebApp.Models;
 using AbsenceWebApp.Utility;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AbsenceWebApp.Areas.Employee.Controllers
 {
@@ -24,7 +25,11 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
         //GET action method
         public async Task<IActionResult> Index()
         {
-            return View(await _db.Absence.Where(u => u.UserName == User.Identity.Name).ToListAsync());
+            //User.FindFirstValue(ClaimTypes.NameIdentifier)
+            var claimIdentity = (ClaimsIdentity)this.User.Identity;
+            var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+
+            return View(await _db.Absence.Where(u => u.UserID == userId).ToListAsync());
         }
 
 
@@ -39,9 +44,13 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Absence absence)
         {
-            absence.UserName = User.Identity.Name;
             if (ModelState.IsValid)
             {
+                var claimIdentity = (ClaimsIdentity)this.User.Identity;
+                var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+
+                absence.UserID = userId;
+
                 absence.DatetimeOfCreated = DateTime.Now;
                 // if is model valid
                 _db.Absence.Add(absence);

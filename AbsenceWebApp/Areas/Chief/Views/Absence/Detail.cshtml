@@ -18,10 +18,10 @@
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.ApplicationUser.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
+            @Html.DisplayFor(model => model.ApplicationUser.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DatetimeFrom)
@@ -60,10 +60,10 @@
             @Html.DisplayFor(model => model.ApprovedDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApprovedByUserName)
+            @Html.DisplayNameFor(model => model.ApplicationUserApprovedBy.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApprovedByUserName)
+            @Html.DisplayFor(model => model.ApplicationUserApprovedBy.Name)
         </dd>
     </dl>
 </div>

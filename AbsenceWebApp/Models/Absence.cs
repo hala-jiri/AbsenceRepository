@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +13,10 @@ namespace AbsenceWebApp.Models
         public int Id { get; set; }
 
         [Display(Name = "Employee")]
-        [Required]
-        public string UserName { get; set; }
+        public string UserID { get; set; }
+        
+        [ForeignKey("UserID")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         [Display(Name ="Absence from")]
         [Required]
@@ -36,6 +39,9 @@ namespace AbsenceWebApp.Models
         public DateTime? ApprovedDate { get; set; }
 
         [Display(Name = "Approved by")]
-        public string ApprovedByUserName { get; set; }
+        public string ApprovedByUserID { get; set; }
+
+        [ForeignKey("ApprovedByUserID")]
+        public virtual ApplicationUser ApplicationUserApprovedBy { get; set; }
     }
 }

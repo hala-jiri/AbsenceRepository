@@ -25,7 +25,7 @@ namespace AbsenceWebApp.Areas.Chief.Controllers
         //GET action method
         public async Task<IActionResult> Index()
         {
-            return View(await _db.Absence.ToListAsync());
+            return View(await _db.Absence.Include(u => u.ApplicationUser).ToListAsync());
         }
 
         //GET - Edit

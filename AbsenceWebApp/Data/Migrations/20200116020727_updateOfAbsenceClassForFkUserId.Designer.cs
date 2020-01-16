@@ -4,14 +4,16 @@ using AbsenceWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AbsenceWebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200116020727_updateOfAbsenceClassForFkUserId")]
+    partial class updateOfAbsenceClassForFkUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +31,8 @@ namespace AbsenceWebApp.Data.Migrations
                     b.Property<bool?>("Approved")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ApprovedByUserID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("ApprovedByUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ApprovedDate")
                         .HasColumnType("datetime2");
@@ -48,11 +50,10 @@ namespace AbsenceWebApp.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApprovedByUserID");
 
                     b.HasIndex("UserID");
 
@@ -273,13 +274,11 @@ namespace AbsenceWebApp.Data.Migrations
 
             modelBuilder.Entity("AbsenceWebApp.Models.Absence", b =>
                 {
-                    b.HasOne("AbsenceWebApp.Models.ApplicationUser", "ApplicationUserApprovedBy")
-                        .WithMany()
-                        .HasForeignKey("ApprovedByUserID");
-
                     b.HasOne("AbsenceWebApp.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

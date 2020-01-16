@@ -19,7 +19,7 @@
             <table class="table table-striped border">
                 <tr class="table-secondary">
                     <th>
-                        @Html.DisplayNameFor(m => m.UserName)
+                        @Html.DisplayNameFor(m => m.ApplicationUser.Name)
                     </th>
                     <th>
                         @Html.DisplayNameFor(m => m.DatetimeFrom)
@@ -39,7 +39,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(m => item.UserName)
+                            @Html.DisplayFor(m => item.ApplicationUser.Name)
                         </td>
                         <td>
                             @Html.DisplayFor(m => item.DatetimeFrom)
@@ -48,11 +48,15 @@
                             @Html.DisplayFor(m => item.DatetimeTo)
                         </td>
                         <td>
-                            @if (item.Approved!=null && item.Approved==true)
+                            @if (item.Approved == true)
                             {
                                 <i class="fas fa-check-circle"></i>
                             }
-                            else
+                            @if (item.Approved == false)
+                            {
+                                <p>X</p>
+                            }
+                            @if (item.Approved == null)
                             {
                                 <i class="fas fa-question-circle"></i>
                             }
