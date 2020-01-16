@@ -1,0 +1,18 @@
+﻿@model int
+
+<div class="row">
+    <div class="col-4">
+        <a class="btn btn-success text-white" asp-action="Approve" asp-route-Id="@Model">
+            <i class="fas fa-clipboard-check"></i> &nbsp; Approve
+        </a>
+    </div>
+    <div class="col-4">
+        <a class="btn btn-danger text-white" asp-action="Dissaprove" asp-route-Id="@Model">
+            <i class="far fa-clipboard"></i> &nbsp; Dissaprove
+        </a>
+    </div>
+    <div class="col-4">
+        <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+    </div>
+
+</div>

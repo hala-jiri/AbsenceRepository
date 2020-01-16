@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AbsenceWebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using AbsenceWebApp.Utility;
+using System.Security.Claims;
 
 namespace AbsenceWebApp.Areas.Chief.Controllers
 {
@@ -35,7 +36,7 @@ namespace AbsenceWebApp.Areas.Chief.Controllers
             {
                 return NotFound();
             }
-            var absence = await _db.Absence.FindAsync(id);
+            var absence = await _db.Absence.Include(u => u.ApplicationUser).FirstOrDefaultAsync(i => i.Id == id);
             if (absence == null)
             {
                 return NotFound();
@@ -74,7 +75,7 @@ namespace AbsenceWebApp.Areas.Chief.Controllers
             {
                 return NotFound();
             }
-            var absence = await _db.Absence.FindAsync(id);
+            var absence = await _db.Absence.Include(u => u.ApplicationUser).FirstOrDefaultAsync(i => i.Id == id);
             if (absence == null)
             {
                 return NotFound();
@@ -88,6 +89,57 @@ namespace AbsenceWebApp.Areas.Chief.Controllers
         {
             //TODO: count hours per one absence (diff) and make a group by
             return View(await _db.Absence.ToListAsync());
+        }
+
+
+        public async Task<IActionResult> Approve(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var absence = await _db.Absence.FirstOrDefaultAsync(a => a.Id == id);
+
+            if (absence == null)
+            {
+                return NotFound();
+            }
+
+            absence.Approved = true;
+            absence.ApprovedDate = DateTime.Now;
+
+            var claimIdentity = (ClaimsIdentity)this.User.Identity;
+            var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            absence.ApprovedByUserID = userId;
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Dissapprove(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var absence = await _db.Absence.FirstOrDefaultAsync(a => a.Id == id);
+
+            if (absence == null)
+            {
+                return NotFound();
+            }
+
+            absence.Approved = false;
+            absence.ApprovedDate = DateTime.Now;
+
+            var claimIdentity = (ClaimsIdentity)this.User.Identity;
+            var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            absence.ApprovedByUserID = userId;
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
     }
 }

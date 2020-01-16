@@ -5,69 +5,93 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Detail</h1>
+<br />
+<h2 class="text-info">Detail absence</h2>
+<br />
 
-<div>
-    <h4>Absence</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationUser.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationUser.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DatetimeFrom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DatetimeFrom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DatetimeTo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DatetimeTo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reason)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reason)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DatetimeOfCreated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DatetimeOfCreated)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Approved)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Approved)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApprovedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApprovedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationUserApprovedBy.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationUserApprovedBy.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<form method="post" asp-action="Detail">
+    <div class="border backgroundWhite">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="ApplicationUser.Name" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ApplicationUser.Name" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="DatetimeFrom" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="DatetimeFrom" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="DatetimeTo" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="DatetimeTo" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="Reason" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Reason" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="Approved" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    @if (Model.Approved == true)
+                    {
+                        <i class="fas fa-check-circle"></i>
+                    }
+                    @if (Model.Approved == false)
+                    {
+                        <p>X</p>
+                    }
+                    @if (Model.Approved == null)
+                    {
+                        <i class="fas fa-question-circle"></i>
+                    }
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="ApplicationUserApprovedBy.Name" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ApplicationUserApprovedBy.Name" readonly class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="ApprovedDate" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ApprovedDate" readonly class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_DetailApproveDissaproveBackToListButton" model="Model.Id" />
+            </div>
+        </div>
+    </div>
+</form>
