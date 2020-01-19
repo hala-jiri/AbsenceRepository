@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AbsenceWebApp.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using AbsenceWebApp.Models;
 
 namespace AbsenceWebApp
 {
@@ -40,6 +41,8 @@ namespace AbsenceWebApp
 
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddTransient<IAbsenceRepository, AbsenceRepository>();
+            services.AddTransient<IAbsenceBusinessLayer, AbsenceBusinessLayer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

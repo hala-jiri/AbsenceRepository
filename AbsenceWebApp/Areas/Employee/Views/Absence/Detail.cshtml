@@ -14,14 +14,6 @@
 <form method="post" asp-action="Detail">
     <div class="border backgroundWhite">
         <div class="form-group">
-            <div class="row">
-                <div class="col-2">
-                    <label asp-for="ApplicationUser.Name" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="ApplicationUser.Name" readonly class="form-control" />
-                </div>
-            </div>
             <br />
             <div class="row">
                 <div class="col-2">
@@ -61,7 +53,7 @@
                     }
                     @if (Model.Approved == false)
                     {
-                        <p>X</p>
+                        <i class="fas fa-times-circle"></i>
                     }
                     @if (Model.Approved == null)
                     {

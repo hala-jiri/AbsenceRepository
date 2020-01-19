@@ -14,132 +14,116 @@ namespace AbsenceWebApp.Areas.Chief.Controllers
 {
     // controller for all absences of all users!
     [Area("Chief")]
-    [Authorize(Roles = StaticDetails.ManagerUser + "," + StaticDetails.AdminUser)]
+    //[Authorize(Roles = StaticDetails.ManagerUser + "," + StaticDetails.AdminUser)]
+    [Authorize(Roles = StaticDetails.ManagerUser)]
     public class AbsenceController : Controller
-    {
-        private readonly ApplicationDbContext _db;
-        public AbsenceController(ApplicationDbContext db)
+    {        
+        private readonly IAbsenceBusinessLayer _abl;
+
+        public AbsenceController(IAbsenceBusinessLayer abl)
         {
-            _db = db;
+            _abl = abl;
+
         }
 
         //GET action method
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _db.Absence.Include(u => u.ApplicationUser).ToListAsync());
+            return View(_abl.GetListOfAbsences());
         }
 
         //GET - Edit
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                var absence = _abl.GetDetailById(id.Value, (ClaimsIdentity)this.User.Identity);
+                return (absence == null) ? NotFound() : (IActionResult)View(absence);
             }
-            var absence = await _db.Absence.Include(u => u.ApplicationUser).FirstOrDefaultAsync(i => i.Id == id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
-            return View(absence);
+            return NotFound();
+
+
         }
 
-        //POST - Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Absence absence)
-        {
-            if (ModelState.IsValid)
-            {
-                //TODO: Change model to saving last date of update
-                // absence.DatetimeOfCreated = DateTime.Now; can be used for Date of Change
+        ////POST - Edit
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(Absence absence)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //TODO: Change model to saving last date of update
+        //        // absence.DatetimeOfCreated = DateTime.Now; can be used for Date of Change
 
-                //TODO: If there will be any changes, absence should be approved or make it not approved.
+        //        //TODO: If there will be any changes, absence should be approved or make it not approved.
 
-                //TODO: change this Update for separate attributes updates.
-                _db.Update(absence);
-                await _db.SaveChangesAsync();
+        //        //TODO: change this Update for separate attributes updates.
+        //        _db.Update(absence);
+        //        await _db.SaveChangesAsync();
 
-                //TODO: maybe show direct button to Approve it! maybe on detail maybe on edit view
+        //        //TODO: maybe show direct button to Approve it! maybe on detail maybe on edit view
 
-                return RedirectToAction("Index");
-            }
-            return View(absence);
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(absence);
 
-        }
+        //}
 
         //GET - Detail
-        public async Task<IActionResult> Detail(int? id)
+        public IActionResult Detail(int? id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                var absence = _abl.GetDetailById(id.Value, (ClaimsIdentity)this.User.Identity);
+                return (absence == null) ? NotFound() : (IActionResult)View(absence);
             }
-            var absence = await _db.Absence.Include(u => u.ApplicationUser).FirstOrDefaultAsync(i => i.Id == id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
-            return View(absence);
-            //TODO: maybe show direct button to Approve it! maybe on detail maybe on edit view
+            return NotFound();
         }
 
-        //GET - Statistics
-        public async Task<IActionResult> Statistics()
+        ////GET - Statistics
+        //public async Task<IActionResult> Statistics()
+        //{
+        //    //TODO: count hours per one absence (diff) and make a group by
+        //    return View(await _db.Absence.ToListAsync());
+        //}
+
+        // POST 
+        public IActionResult Approve(int? id)
         {
-            //TODO: count hours per one absence (diff) and make a group by
-            return View(await _db.Absence.ToListAsync());
+            if (id != null)
+            {
+                return (_abl.ApproveAbsence(id.Value, (ClaimsIdentity)this.User.Identity)) ? (IActionResult)RedirectToAction("Index") : NotFound();
+            }
+            return NotFound();
+
+        }
+        // POST 
+        public IActionResult Dissapprove(int? id)
+        {
+            if (id != null)
+            {
+                return (_abl.DisapproveAbsence(id.Value, (ClaimsIdentity)this.User.Identity)) ? (IActionResult)RedirectToAction("Index") : NotFound();
+            }
+            return NotFound();
         }
 
 
-        public async Task<IActionResult> Approve(int? id)
+        //GET action method
+        public IActionResult ToApprove()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var absence = await _db.Absence.FirstOrDefaultAsync(a => a.Id == id);
-
-            if (absence == null)
-            {
-                return NotFound();
-            }
-
-            absence.Approved = true;
-            absence.ApprovedDate = DateTime.Now;
-
-            var claimIdentity = (ClaimsIdentity)this.User.Identity;
-            var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-            absence.ApprovedByUserID = userId;
-
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return View(_abl.GetListOfAbsencesToApprove());
         }
 
-        public async Task<IActionResult> Dissapprove(int? id)
+        //GET action method
+        public IActionResult Past()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            return View(_abl.GetListOfPastAbsences());
+        }
 
-            var absence = await _db.Absence.FirstOrDefaultAsync(a => a.Id == id);
-
-            if (absence == null)
-            {
-                return NotFound();
-            }
-
-            absence.Approved = false;
-            absence.ApprovedDate = DateTime.Now;
-
-            var claimIdentity = (ClaimsIdentity)this.User.Identity;
-            var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-            absence.ApprovedByUserID = userId;
-
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+        //GET action method
+        public IActionResult Upcoming()
+        {
+            return View(_abl.GetListOfUpcomingAbsences());
         }
     }
 }

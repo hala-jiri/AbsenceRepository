@@ -16,20 +16,16 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
     [Authorize(Roles = StaticDetails.EmployeeUser + "," + StaticDetails.ManagerUser + "," + StaticDetails.AdminUser)]
     public class AbsenceController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public AbsenceController(ApplicationDbContext db)
+        private readonly IAbsenceBusinessLayer _abl;
+        public AbsenceController(IAbsenceBusinessLayer abl)
         {
-            _db = db;
+            _abl = abl;
         }
 
         //GET action method
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            //User.FindFirstValue(ClaimTypes.NameIdentifier)
-            var claimIdentity = (ClaimsIdentity)this.User.Identity;
-            var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-
-            return View(await _db.Absence.Where(u => u.UserID == userId).ToListAsync());
+            return View(_abl.GetListOfAbsencesByUser((ClaimsIdentity)this.User.Identity));
         }
 
 
@@ -42,57 +38,35 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
         //POST - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Absence absence)
+        public IActionResult Create(Absence absence)
         {
             if (ModelState.IsValid)
             {
-                var claimIdentity = (ClaimsIdentity)this.User.Identity;
-                var userId = claimIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-
-                absence.UserID = userId;
-
-                absence.DatetimeOfCreated = DateTime.Now;
-                // if is model valid
-                _db.Absence.Add(absence);
-                await _db.SaveChangesAsync();
-
+                _abl.CreateAbsence(absence, (ClaimsIdentity)this.User.Identity);
                 return RedirectToAction("Index");
             }
             return View(absence);
-
         }
 
         //GET - Edit
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                var absence = _abl.GetDetailById(id.Value, (ClaimsIdentity)this.User.Identity);
+                return (absence == null) ? NotFound() : (IActionResult)View(absence);
             }
-            var absence = await _db.Absence.FindAsync(id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
-            return View(absence);
+            return NotFound();
         }
 
         //POST - Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Absence absence)
+        public IActionResult Edit(Absence absence)
         {
             if (ModelState.IsValid)
             {
-                //TODO: Change model to saving last date of update
-                // absence.DatetimeOfCreated = DateTime.Now; can be used for Date of Change
-                
-                //TODO: If there will be any changes, absence should be approved or make it not approved.
-
-                //TODO: change this Update for separate attributes updates.
-                _db.Update(absence);
-                await _db.SaveChangesAsync();
-
+                _abl.EditAbsence(absence.Id, absence, (ClaimsIdentity)this.User.Identity);
                 return RedirectToAction("Index");
             }
             return View(absence);
@@ -101,51 +75,34 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
 
 
         //GET - Delete
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                var absence = _abl.GetDetailById(id.Value, (ClaimsIdentity)this.User.Identity);
+                return (absence == null) ? NotFound() : (IActionResult)View(absence);
             }
-            var absence = await _db.Absence.FindAsync(id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
-            return View(absence);
+            return NotFound();
         }
 
 
         //POST - Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var absence = await _db.Absence.FindAsync(id);
-
-            //TODO: refactor the rest one lines conditions
-            if (absence == null)
-                return NotFound();
-
-            _db.Absence.Remove(absence);
-            await _db.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+            return (_abl.DeleteAbsence(id, (ClaimsIdentity)this.User.Identity)) ? (IActionResult)RedirectToAction("Index") : NotFound();
         }
 
         //GET - Detail
-        public async Task<IActionResult> Detail(int? id)
+        public IActionResult Detail(int? id)
         {
-            if (id == null)
+            if(id != null)
             {
-                return NotFound();
+                var absence = _abl.GetDetailById(id.Value, (ClaimsIdentity)this.User.Identity);
+                return (absence == null) ? NotFound() : (IActionResult)View(absence);
             }
-            var absence = await _db.Absence.FindAsync(id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
-            return View(absence);
+            return NotFound();
         }
     }
 }
