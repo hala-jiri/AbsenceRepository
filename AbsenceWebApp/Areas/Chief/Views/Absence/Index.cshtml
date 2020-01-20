@@ -28,6 +28,9 @@
                         @Html.DisplayNameFor(m => m.DatetimeTo)
                     </th>
                     <th>
+                        Total
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(m => m.Approved)
                     </th>
                     <th>
@@ -37,16 +40,20 @@
                 </tr>
                 @foreach (var item in Model)
                 {
-            <tr>
+                    TimeSpan dateDiff = item.DatetimeTo - item.DatetimeFrom;
+                <tr>
                 <td>
                     @Html.DisplayFor(m => item.ApplicationUser.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(m => item.DatetimeFrom)
                 </td>
-                <td>
-                    @Html.DisplayFor(m => item.DatetimeTo)
-                </td>
+                    <td>
+                        @Html.DisplayFor(m => item.DatetimeTo)
+                    </td>
+                    <td>
+                        @String.Format("{0} days, {1} hours", dateDiff.Days, dateDiff.Hours)
+                    </td>
                 <td>
                     @if (item.Approved == true)
                     {
