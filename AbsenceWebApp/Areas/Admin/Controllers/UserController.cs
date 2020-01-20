@@ -24,11 +24,11 @@ namespace AbsenceWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            var userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
             // if null, user is not log in yet.
 
             // return All user except currently log in user
-            return View(await _db.ApplicationUser.Where(u=>u.Id != claim.Value).ToListAsync());
+            return View(await _db.ApplicationUser.Where(u=>u.Id != userId).ToListAsync());
         }
 
         public async Task<IActionResult> Lock(string id)
