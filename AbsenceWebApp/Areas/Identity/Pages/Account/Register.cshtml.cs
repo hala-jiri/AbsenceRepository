@@ -82,7 +82,7 @@ namespace AbsenceWebApp.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            string selectedRole = Request.Form["rdUserRole"].ToString();
+            string selectedRole = Request.Form["rbUserRole"].ToString();
 
 
             returnUrl = returnUrl ?? Url.Content("~/");
