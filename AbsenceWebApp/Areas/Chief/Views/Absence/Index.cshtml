@@ -37,35 +37,52 @@
                 </tr>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(m => item.ApplicationUser.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.DatetimeFrom)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.DatetimeTo)
-                        </td>
-                        <td>
-                            @if (item.Approved == true)
-                            {
-                                <i class="fas fa-check-circle"></i>
-                            }
-                            @if (item.Approved == false)
-                            {
-                                <i class="fas fa-times-circle"></i>
-                            }
-                            @if (item.Approved == null)
-                            {
-                                <i class="fas fa-question-circle"></i>
-                            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.DatetimeFrom)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.DatetimeTo)
+                </td>
+                <td>
+                    @if (item.Approved == true)
+                    {
+                        <i class="fas fa-check-circle"></i>
+                    }
+                    @if (item.Approved == false)
+                    {
+                        <i class="fas fa-times-circle"></i>
+                    }
+                    @if (item.Approved == null)
+                    {
+                        <i class="fas fa-question-circle"></i>
+                    }
 
-                        </td>
-                        <td>
-                            <partial name="_TableApproveDisapproveDetailButtonPartial" model="item.Id" />
-                        </td>
-                    </tr>
+                </td>
+                    @*<partial name="_TableApproveDisapproveDetailButtonPartial" model="item.Id" />*@
+                    <td style="width:150px">
+                        <div class="btn-group" role="group">
+                            @if (item.Approved != true)
+                            {
+                                <a class="btn btn-primary text-white" asp-action="Approve" asp-route-Id="@item.Id">
+                                    <i class="fas fa-clipboard-check"></i>
+                                </a>
+                            }
+                            @if (item.Approved != false)
+                            {
+                                <a class="btn btn-danger text-white" asp-action="Dissapprove" asp-route-Id="@item.Id">
+                                    <i class="far fa-clipboard"></i>
+                                </a>
+                            }
+                            <a class="btn btn-success text-white" asp-action="Detail" asp-route-Id="@item.Id">
+                                <i class="fas fa-clipboard-list"></i>
+                            </a>
+                            </div>
+                    </td>
+            </tr>
                 }
             </table>
         }

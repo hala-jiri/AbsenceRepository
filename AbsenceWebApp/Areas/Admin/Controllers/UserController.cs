@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AbsenceWebApp.Data;
+using AbsenceWebApp.Models;
 using AbsenceWebApp.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ namespace AbsenceWebApp.Areas.Admin.Controllers
             // if null, user is not log in yet.
 
             // return All user except currently log in user
-            return View(await _db.ApplicationUser.Where(u=>u.Id!=claim.Value).ToListAsync());
+            return View(await _db.ApplicationUser.Where(u=>u.Id != claim.Value).ToListAsync());
         }
 
         public async Task<IActionResult> Lock(string id)
