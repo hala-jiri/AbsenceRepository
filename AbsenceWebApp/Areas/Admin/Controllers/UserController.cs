@@ -16,60 +16,42 @@ namespace AbsenceWebApp.Areas.Admin.Controllers
     [Authorize(Roles = StaticDetails.AdminUser)]
     public class UserController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public UserController(ApplicationDbContext db)
+        private readonly IAbsenceBusinessLayer _abl;
+        public UserController(IAbsenceBusinessLayer abl)
         {
-            _db = db;
-        }
-        public async Task<IActionResult> Index()
-        {
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var userId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
-            // if null, user is not log in yet.
-
-            // return All user except currently log in user
-            return View(await _db.ApplicationUser.Where(u=>u.Id != userId).ToListAsync());
+            _abl = abl;
         }
 
-        public async Task<IActionResult> Lock(string id)
+        //GET
+        public IActionResult Index()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var applicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Id == id);
-
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
-
-            applicationUser.LockoutEnd = DateTime.Now.AddDays(30);
-
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return View(_abl.GetAllUsers());
         }
 
-        public async Task<IActionResult> UnLock(string id)
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LockUser(string id)
         {
-            if (id == null)
+            if(id != null)
             {
-                return NotFound();
+                _abl.LockUser(id, (ClaimsIdentity)this.User.Identity);
+                return RedirectToAction("Index");
             }
+            return NotFound();
+        }
 
-            var applicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Id == id);
-
-            if (applicationUser == null)
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UnLockUser(string id)
+        {
+            if (id != null)
             {
-                return NotFound();
+                _abl.UnLockUser(id, (ClaimsIdentity)this.User.Identity);
+                return RedirectToAction("Index");
             }
-
-            //TODO: null or datetime.now
-            applicationUser.LockoutEnd = null;
-
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return NotFound();
         }
     }
 }

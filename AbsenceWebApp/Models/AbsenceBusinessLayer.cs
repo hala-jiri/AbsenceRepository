@@ -12,23 +12,24 @@ namespace AbsenceWebApp.Models
 {
     public class AbsenceBusinessLayer : IAbsenceBusinessLayer
     {
-        private IAbsenceRepository _absenceRepository = null;
-        //        private IUserRepository _userRepository = null;
+        private readonly IAbsenceRepository _absenceRepository;
+        private readonly IUserRepository _userRepository;
+
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AbsenceBusinessLayer(IAbsenceRepository absRepository, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AbsenceBusinessLayer(IAbsenceRepository absRepository, IUserRepository usrRepository, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _absenceRepository = absRepository;
+            _userRepository = usrRepository;
         }
 
 
         public IEnumerable<Absence> GetListOfAbsences()
         {
             return _absenceRepository.GetAll();
-
         }
 
         public void CreateAbsence(Absence absence, ClaimsIdentity claimsIdentity)
@@ -200,6 +201,24 @@ namespace AbsenceWebApp.Models
         }
 
 
+
+        
+        // USERS PART
+        public IEnumerable<ApplicationUser> GetAllUsers()
+        {
+            return _userRepository.GetAll();
+        }
+
+        public void LockUser(string userId, ClaimsIdentity claimsIdentity)
+        {
+            ChangeLockStatusOfUser(userId, claimsIdentity, true);
+        }
+        public void UnLockUser(string userId, ClaimsIdentity claimsIdentity)
+        {
+            ChangeLockStatusOfUser(userId, claimsIdentity, false);
+        }
+
+        // PRIVATE
         private bool ChangeStatusOfApprove(Absence absence, string userIdOfApprove, bool changeOnStatus)
         {
             if (absence.Approved != changeOnStatus)
@@ -224,7 +243,23 @@ namespace AbsenceWebApp.Models
 
             return isInRole.Result;
         }
+        private void ChangeLockStatusOfUser(string userId, ClaimsIdentity claimsIdentity, bool lockStatus)
+        {
 
+            string userIdOfAdmin = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            if (IsUserInRole(userIdOfAdmin, StaticDetails.AdminUser) && userId != userIdOfAdmin)
+            {
+                // user is admin and he is not changing status to himself
+                var userById = _userManager.FindByIdAsync(userId);
+                userById.Wait();
+
+                if (lockStatus)
+                    userById.Result.LockoutEnd = DateTime.Now.AddDays(30);
+                else
+                    userById.Result.LockoutEnd = null;
+
+            }
+        }
 
     }
 }

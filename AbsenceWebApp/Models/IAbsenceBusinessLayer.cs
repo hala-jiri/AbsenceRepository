@@ -24,6 +24,10 @@ namespace AbsenceWebApp.Models
         bool DisapproveAbsence(int idAbsence, string userIdOfApprove);
         bool DisapproveAbsence(int idAbsence, ClaimsIdentity claimsIdentityOfUserOfApprove);
 
+        void LockUser(string userId, ClaimsIdentity claimsIdentity);
+        void UnLockUser(string userId, ClaimsIdentity claimsIdentity);
+        IEnumerable<ApplicationUser> GetAllUsers();
+
         IEnumerable<Absence> GetListOfPastAbsences();
         IEnumerable<Absence> GetListOfPastAbsencesByUser(string userId);
         IEnumerable<Absence> GetListOfPastAbsencesByUser(ClaimsIdentity claimsIdentity);
