@@ -48,7 +48,6 @@
                                     <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="ToApprove">To approve</a>
                                     <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Past">Past absences</a>
                                     <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Upcoming">Upcoming absences</a>
-                                    <a class="dropdown-item" asp-area="Chief" asp-controller="Absence" asp-action="Statistics">Statistics</a>
                                 </div>
                             </li>
                         }
@@ -60,13 +59,10 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a>
+                                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-plus"></i> &nbsp; New Employee Registration</a>
                                 </div>
                             </li>
                         }
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                     </ul>
                 </div>
             </div>
