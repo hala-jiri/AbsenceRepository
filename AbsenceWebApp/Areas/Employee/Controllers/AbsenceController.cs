@@ -40,7 +40,7 @@ namespace AbsenceWebApp.Areas.Employee.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Absence absence)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && absence.DatetimeFrom < absence.DatetimeTo)
             {
                 _abl.CreateAbsence(absence, (ClaimsIdentity)this.User.Identity);
                 return RedirectToAction("Index");

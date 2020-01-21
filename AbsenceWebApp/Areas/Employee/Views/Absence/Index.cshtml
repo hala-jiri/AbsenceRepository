@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br /><br />
+<br />
+<br />
 <div class="border backgroundWhite">
     <div class="row">
         <div class="col-6">
@@ -12,7 +13,7 @@
         </div>
         <div class="col-6">
             <div class="col-6 text-right">
-              <partial name="_CreateButtonPartial"/>
+                <partial name="_CreateButtonPartial" />
             </div>
         </div>
     </div>
@@ -20,66 +21,66 @@
     <div>
         @if (Model.Count() > 0)
         {
-        <table class="table table-striped border">
-            <tr class="table-secondary">
-                <th>
-                    @Html.DisplayNameFor(m => m.DatetimeFrom)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(m => m.DatetimeTo)
-                </th>
-                <th>
-                    Total
-                </th>
-                <th>
-                    @Html.DisplayNameFor(m => m.Approved)
-                </th>
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        @Html.DisplayNameFor(m => m.DatetimeFrom)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.DatetimeTo)
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Approved)
+                    </th>
 
-                <th>
-                </th>
-                <th>
-                </th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                TimeSpan dateDiff = item.DatetimeTo - item.DatetimeFrom;
-                <tr>
-                    <td>
-                        @Html.DisplayFor(m => item.DatetimeFrom)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.DatetimeTo)
-                    </td>
-                    <td>
-                        @String.Format("{0} days, {1} hours", dateDiff.Days, dateDiff.Hours)
-                    </td>
-                    <td>
-                        @if (item.Approved == true)
-                        {
-                            <i class="fas fa-check-circle"></i>
-                        }
-                        @if (item.Approved == false)
-                        {
-                            <i class="fas fa-times-circle"></i>
-                        }
-                        @if (item.Approved == null)
-                        {
-                            <i class="fas fa-question-circle"></i>
-                        }
-                        
-                    </td>
-                    <td>
-                        <partial name="_TableButtonPartial" model="item.Id" />
-                    </td>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
                 </tr>
-            }
-        </table>
+
+                @foreach (var item in Model)
+                {
+                    TimeSpan dateDiff = item.DatetimeTo - item.DatetimeFrom;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.DatetimeFrom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.DatetimeTo)
+                        </td>
+                        <td>
+                            @String.Format("{0} days, {1} hours", dateDiff.Days, dateDiff.Hours)
+                        </td>
+                        <td>
+                            @if (item.Approved == true)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            @if (item.Approved == false)
+                            {
+                                <i class="fas fa-times-circle"></i>
+                            }
+                            @if (item.Approved == null)
+                            {
+                                <i class="fas fa-question-circle"></i>
+                            }
+
+                        </td>
+                        <td>
+                            <partial name="_TableButtonPartial" model="item.Id" />
+                        </td>
+                    </tr>
+                }
+            </table>
         }
         else
         {
             <p>No absences exists...</p>
         }
-     </div>
+    </div>
 </div>
 
